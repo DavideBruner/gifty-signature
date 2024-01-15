@@ -4,7 +4,7 @@ const Header = () => (
   <>
     <header className="flex flex-col sm:flex-row justify-between items-center p-6 bg-white dark:bg-gray-800">
       <h1 className="text-2xl font-bold text-purple-600 dark:text-gray-200">
-        Gift Store
+        Gifty Signature
       </h1>
     </header>
     <nav className="w-full bg-purple-100 dark:bg-gray-700 border-t border-purple-300 dark:border-gray-600 py-2">
