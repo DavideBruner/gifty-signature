@@ -1,0 +1,50 @@
+{
+  "HomePage": {
+    "hero": {
+      "title": "Personalizzazione ed eleganza in ogni dettaglio",
+      "subtitle": "Trasforma ogni regalo in un'esperienza unica ed elegante con i nostri arrangiamenti personalizzati",
+      "cta": "Crea il Tuo Regalo Perfetto"
+    },
+    "about": {
+      "title": "Chi Siamo",
+      "description1": "GiftySignature è nata con lo scopo di trasformare ogni regalo in un'esperienza unica ed elegante. Creiamo scatole, bouquet e cesti personalizzati, combinando fiori freschi con articoli accuratamente selezionati dai nostri clienti.",
+      "description2": "Il nostro obiettivo è fornire un tocco di classe e attenzione ai dettagli per celebrare momenti speciali, rendendo ogni regalo un ricordo indimenticabile."
+    },
+    "services": {
+      "title": "Cosa Offriamo",
+      "customDesign": {
+        "title": "Design Personalizzato",
+        "description": "Ogni creazione è progettata per adattarsi alle esigenze del cliente, scegliendo colori, stili e dettagli perfettamente coordinati."
+      },
+      "refinedPackaging": {
+        "title": "Packaging Raffinato",
+        "description": "Utilizziamo nastri e accessori che si armonizzano con il prodotto scelto, creando un'esperienza di unboxing indimenticabile."
+      },
+      "collaborations": {
+        "title": "Collaborazioni",
+        "description": "Collaboriamo con vari partner per portare prodotti unici ed esclusivi, garantendo una selezione diversificata e di alta qualità per i nostri clienti."
+      }
+    },
+    "creations": {
+      "title": "Le Nostre Creazioni",
+      "viewAll": "Vedi Tutti i Prodotti"
+    },
+    "contact": {
+      "title": "Crea il Tuo Regalo Perfetto",
+      "subtitle": "Lascia che ti aiutiamo a creare un'esperienza regalo unica e personalizzata. Contattaci per iniziare a progettare il tuo arrangiamento perfetto.",
+      "languages": "Parliamo più lingue per servirti meglio: 🇬🇧 Inglese, 🇪🇸 Spagnolo, 🇮🇹 Italiano"
+    }
+  },
+  "ContactPage": {
+    "title": "Contattaci",
+    "description": "Ci piacerebbe sentirti. Che tu abbia una domanda sui nostri prodotti, bisogno di aiuto con un ordine personalizzato o semplicemente voglia dire ciao, non esitare a contattarci.",
+    "languages": "Siamo felici di assisterti in più lingue: 🇬🇧 Inglese, 🇪🇸 Spagnolo, 🇮🇹 Italiano",
+    "location": {
+      "title": "La Nostra Sede",
+      "address": "Rincon de la Victoria, Malaga"
+    }
+  },
+  "CollectionPage": {
+    "title": "La Nostra Collezione"
+  }
+}

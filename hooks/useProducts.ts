@@ -5,9 +5,7 @@ import { products } from "@/data/products";
 // This is a mock function that simulates fetching products from an API
 const fetchProducts = (): Promise<Product[]> => {
   return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(products);
-    }, 500); // Simulate network delay
+    resolve(products);
   });
 };
 

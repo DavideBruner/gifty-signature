@@ -7,6 +7,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
 import CursorTrailEffect from "@/components/CursorTrail";
+import { useTranslations } from "next-intl";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 50 },
@@ -59,6 +60,8 @@ function AnimateWhenVisible({
 
 export default function Home() {
   const { products } = useProducts();
+  const t = useTranslations("HomePage");
+
   return (
     <>
       {/* Hero Section */}
@@ -80,21 +83,20 @@ export default function Home() {
               variants={fadeInUp}
               className="font-serif text-5xl text-brand-brown mb-6"
             >
-              Personalización y elegancia en cada detalle
+              {t("hero.title")}
             </motion.h1>
             <motion.p
               variants={fadeInUp}
               className="text-xl text-brand-dark mb-8"
             >
-              Transform every gift into a unique and elegant experience with our
-              personalized arrangements
+              {t("hero.subtitle")}
             </motion.p>
             <motion.div variants={fadeInUp}>
               <Link
                 href="#contact"
                 className="inline-block bg-brand-brown text-white px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors"
               >
-                Create Your Perfect Gift
+                {t("hero.cta")}
               </Link>
             </motion.div>
           </motion.div>
@@ -110,18 +112,13 @@ export default function Home() {
                 variants={fadeInUp}
                 className="font-serif text-4xl text-brand-brown mb-6"
               >
-                Who We Are
+                {t("about.title")}
               </motion.h2>
               <motion.p variants={fadeInUp} className="text-brand-dark mb-4">
-                GiftySignature was born with the purpose of transforming each
-                gift into a unique and elegant experience. We create custom
-                boxes, bouquets, and baskets, combining fresh flowers with
-                carefully selected items chosen by our clients.
+                {t("about.description1")}
               </motion.p>
               <motion.p variants={fadeInUp} className="text-brand-dark">
-                Our goal is to provide a touch of class and attention to detail
-                to celebrate special moments, making each gift an unforgettable
-                memory.
+                {t("about.description2")}
               </motion.p>
             </AnimateWhenVisible>
             <AnimateWhenVisible variants={stagger}>
@@ -130,18 +127,18 @@ export default function Home() {
                 className="grid grid-cols-2 gap-4"
               >
                 <Image
-                  src="/placeholder.svg?height=300&width=300"
+                  src="/images/baloons.jpg?height=300&width=300"
                   alt="Elegant gift arrangement"
                   width={300}
                   height={300}
                   className="rounded-lg"
                 />
                 <Image
-                  src="/placeholder.svg?height=300&width=300"
+                  src="/images/candles-favors.jpg"
                   alt="Custom flower bouquet"
                   width={300}
                   height={300}
-                  className="rounded-lg mt-8"
+                  className="rounded-lg mt-28"
                 />
               </motion.div>
             </AnimateWhenVisible>
@@ -154,42 +151,37 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimateWhenVisible variants={fadeInUp}>
             <h2 className="font-serif text-4xl text-brand-brown text-center mb-12">
-              What We Offer
+              {t("services.title")}
             </h2>
           </AnimateWhenVisible>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <AnimateWhenVisible variants={slideIn("left")}>
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="font-serif text-2xl text-brand-brown mb-4">
-                  Custom Design
+                  {t("services.customDesign.title")}
                 </h3>
                 <p className="text-brand-dark">
-                  Each creation is designed to adapt to the client's needs,
-                  choosing colors, styles, and details that are perfectly
-                  coordinated.
+                  {t("services.customDesign.description")}
                 </p>
               </div>
             </AnimateWhenVisible>
             <AnimateWhenVisible variants={fadeInUp}>
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="font-serif text-2xl text-brand-brown mb-4">
-                  Refined Packaging
+                  {t("services.refinedPackaging.title")}
                 </h3>
                 <p className="text-brand-dark">
-                  We use ribbons and accessories that harmonize with the chosen
-                  product, creating an unforgettable unboxing experience.
+                  {t("services.refinedPackaging.description")}
                 </p>
               </div>
             </AnimateWhenVisible>
             <AnimateWhenVisible variants={slideIn("right")}>
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="font-serif text-2xl text-brand-brown mb-4">
-                  Collaborations
+                  {t("services.collaborations.title")}
                 </h3>
                 <p className="text-brand-dark">
-                  We collaborate with various partners to bring unique and
-                  exclusive products, ensuring a diverse and high-quality
-                  selection for our customers.
+                  {t("services.collaborations.description")}
                 </p>
               </div>
             </AnimateWhenVisible>
@@ -202,7 +194,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimateWhenVisible variants={fadeInUp}>
             <h2 className="font-serif text-4xl text-brand-brown text-center mb-12">
-              Our Creations
+              {t("creations.title")}
             </h2>
           </AnimateWhenVisible>
           <AnimateWhenVisible variants={stagger}>
@@ -235,7 +227,7 @@ export default function Home() {
                 href="/products"
                 className="inline-block bg-brand-pink text-brand-brown px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors"
               >
-                View All Products
+                {t("creations.viewAll")}
               </Link>
             </div>
           </AnimateWhenVisible>
@@ -251,16 +243,13 @@ export default function Home() {
                 variants={fadeInUp}
                 className="font-serif text-4xl text-brand-brown mb-6"
               >
-                Create Your Perfect Gift
+                {t("contact.title")}
               </motion.h2>
               <motion.p variants={fadeInUp} className="text-brand-dark mb-8">
-                Let us help you create a unique and personalized gift
-                experience. Contact us to start designing your perfect
-                arrangement.
+                {t("contact.subtitle")}
               </motion.p>
               <motion.p variants={fadeInUp} className="text-brand-dark mb-8">
-                We speak multiple languages to serve you better: 🇬🇧 English, 🇪🇸
-                Spanish, 🇮🇹 Italian
+                {t("contact.languages")}
               </motion.p>
               <motion.div variants={fadeInUp}>
                 <ContactForm />

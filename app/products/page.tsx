@@ -14,6 +14,7 @@ import {
 import { useProducts } from "@/hooks/useProducts";
 import { categories } from "@/data/products";
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 50 },
@@ -59,10 +60,12 @@ function AnimateWhenVisible({
 }
 
 export default function ProductsPage() {
+  const t = useTranslations("CollectionPage");
+
   const { products, loading, error } = useProducts();
+
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   const filteredProducts = selectedCategory
@@ -73,7 +76,7 @@ export default function ProductsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <AnimateWhenVisible variants={fadeInUp}>
         <h1 className="font-serif text-4xl text-brand-brown mb-8">
-          Our Collections
+          {t("title")}
         </h1>
       </AnimateWhenVisible>
 

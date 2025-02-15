@@ -1,0 +1,50 @@
+{
+  "HomePage": {
+    "hero": {
+      "title": "Personalization and elegance in every detail",
+      "subtitle": "Transform every gift into a unique and elegant experience with our personalized arrangements",
+      "cta": "Create Your Perfect Gift"
+    },
+    "about": {
+      "title": "Who We Are",
+      "description1": "GiftySignature was born with the purpose of transforming each gift into a unique and elegant experience. We create custom boxes, bouquets, and baskets, combining fresh flowers with carefully selected items chosen by our clients.",
+      "description2": "Our goal is to provide a touch of class and attention to detail to celebrate special moments, making each gift an unforgettable memory."
+    },
+    "services": {
+      "title": "What We Offer",
+      "customDesign": {
+        "title": "Custom Design",
+        "description": "Each creation is designed to adapt to the client's needs, choosing colors, styles, and details that are perfectly coordinated."
+      },
+      "refinedPackaging": {
+        "title": "Refined Packaging",
+        "description": "We use ribbons and accessories that harmonize with the chosen product, creating an unforgettable unboxing experience."
+      },
+      "collaborations": {
+        "title": "Collaborations",
+        "description": "We collaborate with various partners to bring unique and exclusive products, ensuring a diverse and high-quality selection for our customers."
+      }
+    },
+    "creations": {
+      "title": "Our Creations",
+      "viewAll": "View All Products"
+    },
+    "contact": {
+      "title": "Create Your Perfect Gift",
+      "subtitle": "Let us help you create a unique and personalized gift experience. Contact us to start designing your perfect arrangement.",
+      "languages": "We speak multiple languages to serve you better: 🇬🇧 English, 🇪🇸 Spanish, 🇮🇹 Italian"
+    }
+  },
+  "ContactPage": {
+    "title": "Contact Us",
+    "description": "We'd love to hear from you. Whether you have a question about our products, need help with a custom order, or just want to say hello, don't hesitate to reach out.",
+    "languages": "We're happy to assist you in multiple languages: 🇬🇧 English, 🇪🇸 Spanish, 🇮🇹 Italian",
+    "location": {
+      "title": "Our Location",
+      "address": "Rincon de la Victoria, Malaga"
+    }
+  },
+  "CollectionPage": {
+    "title": "Our Collections"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "HomePage": {
+    "hero": {
+      "title": "Personalización y elegancia en cada detalle",
+      "subtitle": "Transforma cada regalo en una experiencia única y elegante con nuestros arreglos personalizados",
+      "cta": "Crea Tu Regalo Perfecto"
+    },
+    "about": {
+      "title": "Quiénes Somos",
+      "description1": "GiftySignature nació con el propósito de transformar cada regalo en una experiencia única y elegante. Creamos cajas, ramos y cestas personalizadas, combinando flores frescas con artículos cuidadosamente seleccionados por nuestros clientes.",
+      "description2": "Nuestro objetivo es proporcionar un toque de clase y atención al detalle para celebrar momentos especiales, haciendo de cada regalo un recuerdo inolvidable."
+    },
+    "services": {
+      "title": "Qué Ofrecemos",
+      "customDesign": {
+        "title": "Diseño Personalizado",
+        "description": "Cada creación está diseñada para adaptarse a las necesidades del cliente, eligiendo colores, estilos y detalles perfectamente coordinados."
+      },
+      "refinedPackaging": {
+        "title": "Empaque Refinado",
+        "description": "Utilizamos cintas y accesorios que armonizan con el producto elegido, creando una experiencia de unboxing inolvidable."
+      },
+      "collaborations": {
+        "title": "Colaboraciones",
+        "description": "Colaboramos con varios socios para traer productos únicos y exclusivos, asegurando una selección diversa y de alta calidad para nuestros clientes."
+      }
+    },
+    "creations": {
+      "title": "Nuestras Creaciones",
+      "viewAll": "Ver Todos los Productos"
+    },
+    "contact": {
+      "title": "Crea Tu Regalo Perfecto",
+      "subtitle": "Déjanos ayudarte a crear una experiencia de regalo única y personalizada. Contáctanos para comenzar a diseñar tu arreglo perfecto.",
+      "languages": "Hablamos varios idiomas para servirte mejor: 🇬🇧 Inglés, 🇪🇸 Español, 🇮🇹 Italiano"
+    }
+  },
+  "ContactPage": {
+    "title": "Contáctanos",
+    "description": "Nos encantaría saber de ti. Ya sea que tengas una pregunta sobre nuestros productos, necesites ayuda con un pedido personalizado o simplemente quieras saludar, no dudes en contactarnos.",
+    "languages": "Estamos felices de ayudarte en varios idiomas: 🇬🇧 Inglés, 🇪🇸 Español, 🇮🇹 Italiano",
+    "location": {
+      "title": "Nuestra Ubicación",
+      "address": "Rincón de la Victoria, Málaga"
+    }
+  },
+  "CollectionPage": {
+    "title": "Nuestras colecciones"
+  }
+}
