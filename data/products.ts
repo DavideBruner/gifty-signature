@@ -1,4 +1,27 @@
-import type { Product } from "@/types/product"
+import type { Product, ProductCategory } from "@/types/product";
+
+export const categories: ProductCategory[] = [
+  {
+    id: "gift-boxes",
+    name: "Gift Boxes",
+    description: "Curated gift boxes for every occasion",
+  },
+  {
+    id: "flowers",
+    name: "Flowers",
+    description: "Fresh floral arrangements",
+  },
+  {
+    id: "candles",
+    name: "Candles",
+    description: "Scented candles to enhance your ambiance",
+  },
+  {
+    id: "occasions",
+    name: "Special Occasions",
+    description: "Tailored gifts for celebrations",
+  },
+];
 
 export const products: Product[] = [
   {
@@ -7,7 +30,7 @@ export const products: Product[] = [
     description: "A beautiful arrangement of fresh flowers in a luxury box",
     price: 49.99,
     images: ["/placeholder.svg?height=600&width=600"],
-    category: "flowers",
+    categoryId: "flowers",
     variants: [
       { id: "small", name: "Small", price: 49.99 },
       { id: "medium", name: "Medium", price: 69.99 },
@@ -18,7 +41,12 @@ export const products: Product[] = [
         id: "color-scheme",
         label: "Color Scheme",
         type: "select",
-        options: ["Pink & White", "Purple & White", "Red & White", "Mixed Colors"],
+        options: [
+          "Pink & White",
+          "Purple & White",
+          "Red & White",
+          "Mixed Colors",
+        ],
         required: true,
       },
       {
@@ -35,7 +63,7 @@ export const products: Product[] = [
     description: "Luxury spa products arranged in an elegant basket",
     price: 79.99,
     images: ["/placeholder.svg?height=600&width=600"],
-    category: "wellness",
+    categoryId: "gift-boxes",
     variants: [
       { id: "essential", name: "Essential", price: 79.99 },
       { id: "premium", name: "Premium", price: 99.99 },
@@ -50,6 +78,25 @@ export const products: Product[] = [
       },
     ],
   },
-  // Add more products...
-]
-
+  {
+    id: "birthday-surprise",
+    name: "Birthday Surprise Box",
+    description: "A special curated box for birthday celebrations",
+    price: 89.99,
+    images: ["/placeholder.svg?height=600&width=600"],
+    categoryId: "occasions",
+    variants: [
+      { id: "classic", name: "Classic", price: 89.99 },
+      { id: "deluxe", name: "Deluxe", price: 129.99 },
+    ],
+    customizationFields: [
+      {
+        id: "theme",
+        label: "Theme",
+        type: "select",
+        options: ["Elegant", "Fun", "Romantic", "Classic"],
+        required: true,
+      },
+    ],
+  },
+];
