@@ -27,7 +27,8 @@ export const products: Product[] = [
   {
     id: "custom-flower-box",
     name: "Custom Flower Box",
-    description: "A beautiful arrangement of fresh flowers in a luxury box",
+    description:
+      "A beautiful arrangement of fresh flowers in a luxury box, perfect for any occasion",
     price: 49.99,
     images: ["/products/flowers.jpeg?height=600&width=600"],
     categoryId: "flowers",
@@ -60,9 +61,10 @@ export const products: Product[] = [
   {
     id: "spa-gift-basket",
     name: "Spa Gift Basket",
-    description: "Luxury spa products arranged in an elegant basket",
+    description:
+      "A collection of luxury spa products arranged in an elegant basket, ideal for relaxation",
     price: 79.99,
-    images: ["/placeholder.svg?height=600&width=600"],
+    images: ["/products/spabox.jpg?height=600&width=600"],
     categoryId: "gift-boxes",
     variants: [
       { id: "essential", name: "Essential", price: 79.99 },
@@ -79,22 +81,24 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "birthday-surprise",
-    name: "Birthday Surprise Box",
-    description: "A special curated box for birthday celebrations",
+    id: "moon-soon-candle",
+    name: "MoonSoon Candle",
+    description: "A beautifully scented candle to enhance your ambiance",
     price: 89.99,
-    images: ["/placeholder.svg?height=600&width=600"],
-    categoryId: "occasions",
-    variants: [
-      { id: "classic", name: "Classic", price: 89.99 },
-      { id: "deluxe", name: "Deluxe", price: 129.99 },
-    ],
+    images: ["/products/candles.jpg?height=600&width=600"],
+    categoryId: "candles",
+    variants: [],
     customizationFields: [
       {
-        id: "theme",
-        label: "Theme",
+        id: "color-scheme",
+        label: "Color Scheme",
         type: "select",
-        options: ["Elegant", "Fun", "Romantic", "Classic"],
+        options: [
+          "Pink & White",
+          "Purple & White",
+          "Red & White",
+          "Mixed Colors",
+        ],
         required: true,
       },
     ],
