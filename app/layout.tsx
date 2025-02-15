@@ -5,6 +5,7 @@ import type React from "react";
 import { CartProvider } from "@/context/cart-context";
 import { Cart } from "@/components/cart";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import Logo from "@/components/Logo";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -49,9 +50,7 @@ export default function RootLayout({
           <nav className="bg-brand-light">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
               <div className="flex justify-between items-center">
-                <h1 className="font-serif text-3xl text-brand-brown">
-                  GiftySignature
-                </h1>
+                <Logo />
                 <div className="flex items-center space-x-6">
                   <div className="space-x-6 text-brand-dark">
                     <a

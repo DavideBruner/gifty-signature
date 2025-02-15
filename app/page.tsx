@@ -68,7 +68,7 @@ export default function Home() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="absolute inset-0 bg-[url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Flyer%20Gifty%20Signature-9QOFGLWtzUfJYZPOp67Uy3mztjRXPH.png')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-brand-pink bg-cover bg-center opacity-20" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <motion.div
             className="max-w-2xl"
@@ -233,7 +233,7 @@ export default function Home() {
             <div className="text-center mt-8">
               <Link
                 href="/products"
-                className="inline-block bg-brand-brown text-white px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors"
+                className="inline-block bg-brand-pink text-brand-brown px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors"
               >
                 View All Products
               </Link>
