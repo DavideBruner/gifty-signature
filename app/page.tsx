@@ -184,12 +184,12 @@ export default function Home() {
             <AnimateWhenVisible variants={slideIn("right")}>
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="font-serif text-2xl text-brand-brown mb-4">
-                  Florist Collaboration
+                  Collaborations
                 </h3>
                 <p className="text-brand-dark">
-                  We propose combinations that enhance the beauty of flowers and
-                  add value with exclusive objects, ensuring customers a
-                  complete and well-cared product.
+                  We collaborate with various partners to bring unique and
+                  exclusive products, ensuring a diverse and high-quality
+                  selection for our customers.
                 </p>
               </div>
             </AnimateWhenVisible>
