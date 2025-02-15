@@ -29,7 +29,7 @@ export const products: Product[] = [
     name: "Custom Flower Box",
     description: "A beautiful arrangement of fresh flowers in a luxury box",
     price: 49.99,
-    images: ["/placeholder.svg?height=600&width=600"],
+    images: ["/products/flowers.jpeg?height=600&width=600"],
     categoryId: "flowers",
     variants: [
       { id: "small", name: "Small", price: 49.99 },
