@@ -1,4 +1,19 @@
 {
+  "Navigation": {
+    "home": "Inicio",
+    "products": "Productos",
+    "contact": "Contáctanos",
+    "collaborate": "Colaborar"
+  },
+  "Footer": {
+    "contact": "Contáctanos",
+    "follow": "Síguenos",
+    "newsletter": {
+      "title": "Boletín",
+      "description": "Suscríbete para recibir actualizaciones y ofertas exclusivas",
+      "copyright": "{year} GiftySignature. Todos los derechos reservados."
+    }
+  },
   "HomePage": {
     "hero": {
       "title": "Personalización y elegancia en cada detalle",
