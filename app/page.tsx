@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useProducts } from "@/modules/commerce/hooks/useProducts";
+import { useProducts } from "@/modules/commerce/hooks/use-products";
 import { ContactForm } from "@/components/ContactForm";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
