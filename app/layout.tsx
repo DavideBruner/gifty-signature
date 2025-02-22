@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import type React from "react";
 import { CartProvider } from "@/modules/commerce/context/cart-context";
 import { Cart } from "@/modules/commerce/components/cart";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import Logo from "@/components/Logo";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import Logo from "@/components/logo";
 import { NextIntlClientProvider } from "next-intl";
 
 import { getLocale, getMessages, getTranslations } from "next-intl/server";

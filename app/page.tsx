@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useProducts } from "@/modules/commerce/hooks/use-products";
-import { ContactForm } from "@/components/ContactForm";
+import { ContactForm } from "@/components/contact-form";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
-import CursorTrailEffect from "@/components/CursorTrail";
+import CursorTrailEffect from "@/components/cursor-trail";
 import { useTranslations } from "next-intl";
 
 const fadeInUp = {
