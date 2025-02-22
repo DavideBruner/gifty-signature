@@ -37,6 +37,7 @@ export function Cart() {
           items: state.items,
           total: state.total,
           customerInfo,
+          type: "order_email",
         }),
       });
 

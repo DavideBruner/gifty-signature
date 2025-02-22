@@ -67,3 +67,34 @@ export async function sendOrderEmail(orderDetails: {
     return { success: false, error: (error as Error).message };
   }
 }
+
+export async function sendInfoEmail(details: {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}) {
+  try {
+    const info = await transporter.sendMail({
+      from: '"GiftySignature Contact" <contact@giftysignature.com>',
+      to: "info@giftysignature.com",
+      subject: "New Contact Form Submission",
+      html: `
+        <h1>New Contact Form Submission</h1>
+        <p>Name: ${details.name}</p>
+        <p>Email: ${details.email}</p>
+        <p>Phone: ${details.phone}</p>
+        <p>Message: ${details.message}</p>
+      `,
+    });
+
+    if (info.messageId) {
+      return { success: true };
+    } else {
+      throw new Error("Failed to send email");
+    }
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return { success: false, error: (error as Error).message };
+  }
+}
