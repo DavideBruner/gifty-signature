@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { useCart } from "@/modules/commerce/context/cart-context";
 import { products } from "@/data/products";
@@ -14,16 +14,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
-import CursorTrailEffect from "@/components/cursor-trail";
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const product = products.find((p) => p.id === params.id);
   const { dispatch } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariant, setSelectedVariant] = useState(
-    product?.variants?.[0]
-  );
+  const [selectedVariants, setSelectedVariants] = useState<
+    Record<string, string>
+  >({});
   const [customization, setCustomization] = useState<Record<string, string>>(
     {}
   );
@@ -32,16 +31,70 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     return <div>Product not found</div>;
   }
 
+  const price = useMemo(() => {
+    // Calculate variants price
+    const variantsPrice =
+      product.variantFields?.reduce((total, field) => {
+        const selectedOptionId = selectedVariants[field.id];
+        if (selectedOptionId) {
+          const selectedOption = field.options.find(
+            (opt) => opt.id === selectedOptionId
+          );
+          return total + (selectedOption?.price || 0);
+        }
+        return total;
+      }, 0) ?? 0;
+
+    // Calculate customization price
+    const customizationPrice =
+      product.customizationFields?.reduce((total, field) => {
+        if (field.price && customization[field.id]) {
+          if (field.type === "select") {
+            return total + field.price;
+          }
+          if (customization[field.id].trim() !== "") {
+            return total + field.price;
+          }
+        }
+        return total;
+      }, 0) ?? 0;
+
+    // Calculate total price
+    return (product.basePrice + variantsPrice + customizationPrice).toFixed(2);
+  }, [
+    product.basePrice,
+    product.variantFields,
+    product.customizationFields,
+    selectedVariants,
+    customization,
+  ]);
+
   const handleAddToCart = () => {
+    // Validate required variants are selected
+    const missingRequiredVariants = product.variantFields?.some(
+      (field) => !selectedVariants[field.id]
+    );
+
+    if (missingRequiredVariants) {
+      toast({
+        title: "Please select all options",
+        description:
+          "All variant options must be selected before adding to cart.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     dispatch({
       type: "ADD_ITEM",
       payload: {
         productId: product.id,
         quantity,
-        variant: selectedVariant,
+        variants: selectedVariants,
         customization,
       },
     });
+
     toast({
       title: "Added to cart",
       description: `${product.name} has been added to your cart.`,
@@ -59,7 +112,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               fill
               className="object-cover"
             />
-            <CursorTrailEffect />
           </div>
           <div className="grid grid-cols-4 gap-4">
             {product.images.map((image, index) => (
@@ -85,42 +137,45 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <h1 className="font-serif text-4xl text-brand-brown mb-4">
             {product.name}
           </h1>
-          <p className="text-xl text-brand-dark mb-6">
-            €{(selectedVariant?.price || product.price).toFixed(2)}
-          </p>
+          <p className="text-xl text-brand-dark mb-6">€{price}</p>
           <p className="text-brand-dark mb-8">{product.description}</p>
 
-          {product.variants && (
-            <div className="mb-6">
+          {product.variantFields?.map((field) => (
+            <div key={field.id} className="mb-6">
               <label className="block text-sm font-medium text-brand-dark mb-2">
-                Select Option
+                {field.name}
               </label>
               <Select
-                value={selectedVariant?.id}
+                value={selectedVariants[field.id]}
                 onValueChange={(value) => {
-                  setSelectedVariant(
-                    product.variants?.find((v) => v.id === value)
-                  );
+                  setSelectedVariants((prev) => ({
+                    ...prev,
+                    [field.id]: value,
+                  }));
                 }}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a variant" />
+                  <SelectValue
+                    placeholder={`Select ${field.name.toLowerCase()}`}
+                  />
                 </SelectTrigger>
                 <SelectContent>
-                  {product.variants.map((variant) => (
-                    <SelectItem key={variant.id} value={variant.id}>
-                      {variant.name} - €{variant.price.toFixed(2)}
+                  {field.options.map((option) => (
+                    <SelectItem key={option.id} value={option.id}>
+                      {option.name}
+                      {option.price ? ` (+€${option.price.toFixed(2)})` : ""}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-          )}
+          ))}
 
           {product.customizationFields?.map((field) => (
             <div key={field.id} className="mb-6">
               <label className="block text-sm font-medium text-brand-dark mb-2">
                 {field.label}
+                {field.price ? ` (+€${field.price.toFixed(2)})` : ""}
               </label>
               {field.type === "select" ? (
                 <Select

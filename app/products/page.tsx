@@ -141,7 +141,7 @@ export default function ProductsPage() {
                       {product.name}
                     </h3>
                     <span className="text-lg font-semibold text-brand-brown">
-                      €{product.price.toFixed(2)}
+                      from €{product.basePrice.toFixed(2)}
                     </span>
                   </div>
                   <p className="text-brand-brown-light text-sm">

@@ -2,12 +2,12 @@
 
 import type React from "react";
 import { createContext, useContext, useReducer } from "react";
-import type { ProductVariant } from "@/modules/commerce/types/product";
+import { VariantField } from "../types/product";
 
 export type CartItem = {
   productId: string;
   quantity: number;
-  variant?: ProductVariant;
+  variants?: Record<string, string>;
   customization?: Record<string, string>;
 };
 

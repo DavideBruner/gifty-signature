@@ -32,13 +32,29 @@ export const products: Product[] = [
     name: "Custom Flower Box",
     description:
       "A beautiful arrangement of fresh flowers in a luxury box, perfect for any occasion",
-    price: 49.99,
+    basePrice: 49.99,
     images: ["/products/flowers.jpeg?height=600&width=600"],
     categoryId: "flowers",
-    variants: [
-      { id: "small", name: "Small", price: 49.99 },
-      { id: "medium", name: "Medium", price: 69.99 },
-      { id: "large", name: "Large", price: 89.99 },
+    variantFields: [
+      {
+        id: "size",
+        name: "Box Size",
+        options: [
+          { id: "small", name: "Small", price: 0 },
+          { id: "medium", name: "Medium", price: 69.99 },
+          { id: "large", name: "Large", price: 89.99 },
+        ],
+      },
+      {
+        id: "flower-count",
+        name: "Number of Flowers",
+        options: [
+          { id: "2-flowers", name: "2 Flowers", price: 0 },
+          { id: "3-flowers", name: "3 Flowers", price: 10 },
+          { id: "4-flowers", name: "4 Flowers", price: 20 },
+          { id: "5-flowers", name: "5 Flowers", price: 30 },
+        ],
+      },
     ],
     customizationFields: [
       {
@@ -66,12 +82,26 @@ export const products: Product[] = [
     name: "Spa Gift Basket",
     description:
       "A collection of luxury spa products arranged in an elegant basket, ideal for relaxation",
-    price: 79.99,
+    basePrice: 79.99,
     images: ["/products/spabox.jpg?height=600&width=600"],
     categoryId: "gift-boxes",
-    variants: [
-      { id: "essential", name: "Essential", price: 79.99 },
-      { id: "premium", name: "Premium", price: 99.99 },
+    variantFields: [
+      {
+        id: "package",
+        name: "Package Type",
+        options: [
+          { id: "essential", name: "Essential", price: 0 },
+          { id: "premium", name: "Premium", price: 40 },
+        ],
+      },
+      {
+        id: "size",
+        name: "Basket Size",
+        options: [
+          { id: "regular", name: "Regular", price: 0 },
+          { id: "large", name: "Large", price: 20 },
+        ],
+      },
     ],
     customizationFields: [
       {
@@ -87,10 +117,9 @@ export const products: Product[] = [
     id: "moon-soon-candle",
     name: "MoonSoon Candle",
     description: "A beautifully scented candle to enhance your ambiance",
-    price: 89.99,
+    basePrice: 89.99,
     images: ["/products/candles.jpg?height=600&width=600"],
     categoryId: "candles",
-    variants: [],
     customizationFields: [
       {
         id: "color-scheme",
@@ -103,6 +132,7 @@ export const products: Product[] = [
           "Mixed Colors",
         ],
         required: true,
+        price: 10,
       },
     ],
   },

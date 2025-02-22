@@ -124,7 +124,7 @@ export default function Home() {
             <AnimateWhenVisible variants={stagger}>
               <motion.div
                 variants={fadeInUp}
-                className="grid grid-cols-2 gap-4"
+                className="grid grid-cols-2 gap-4 relative"
               >
                 <Image
                   src="/images/baloons.jpg?height=300&width=300"
@@ -133,6 +133,7 @@ export default function Home() {
                   height={300}
                   className="rounded-lg"
                 />
+
                 <Image
                   src="/images/candles-favors.jpg"
                   alt="Custom flower bouquet"
@@ -140,6 +141,9 @@ export default function Home() {
                   height={300}
                   className="rounded-lg mt-28"
                 />
+                <div className="absolute h-full w-full top-0 left-0 ">
+                  <CursorTrailEffect />
+                </div>
               </motion.div>
             </AnimateWhenVisible>
           </div>
@@ -212,11 +216,12 @@ export default function Home() {
                     className="object-cover hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    <h3 className="text-white text-center font-serif text-xl">
-                      {product.name}
-                    </h3>
+                    <Link href={`/products/${product.id}`}>
+                      <h3 className="text-white text-center font-serif text-xl">
+                        {product.name}
+                      </h3>
+                    </Link>
                   </div>
-                  <CursorTrailEffect />
                 </motion.div>
               ))}
             </div>
