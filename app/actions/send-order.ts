@@ -1,8 +1,8 @@
-"use server"
+"use server";
 
-// import nodemailer from "nodemailer"
-import type { CartItem } from "@/context/cart-context"
-/*
+import { CartItem } from "@/context/cart-context";
+import nodemailer from "nodemailer";
+
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
@@ -11,24 +11,22 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-})
-*/
+});
 
 export async function sendOrderEmail(orderDetails: {
-  items: CartItem[]
-  total: number
+  items: CartItem[];
+  total: number;
   customerInfo: {
-    name: string
-    email: string
-    phone: string
-    message: string
-  }
+    name: string;
+    email: string;
+    phone: string;
+    message: string;
+  };
 }) {
   try {
-  /*
     const info = await transporter.sendMail({
-      from: '"GiftySignature Orders" <orders@giftysignature.com>',
-      to: "jasmineorillia@hotmail.it",
+      from: '"GiftySignature Orders" <request@giftysignature.com>',
+      to: "info@giftysignature.com",
       subject: "New Order Request",
       html: `
         <h1>New Order Request</h1>
@@ -46,25 +44,27 @@ export async function sendOrderEmail(orderDetails: {
             <p>Product ID: ${item.productId}</p>
             <p>Quantity: ${item.quantity}</p>
             ${item.variant ? `<p>Variant: ${item.variant.name}</p>` : ""}
-            ${item.customization ? `<p>Customization: ${JSON.stringify(item.customization)}</p>` : ""}
+            ${
+              item.customization
+                ? `<p>Customization: ${JSON.stringify(item.customization)}</p>`
+                : ""
+            }
           </div>
-        `,
+        `
           )
           .join("<hr/>")}
         
         <h2>Total Items: ${orderDetails.items.length}</h2>
       `,
-    })
+    });
 
     if (info.messageId) {
-      return { success: true }
+      return { success: true };
     } else {
-      throw new Error("Failed to send email")
+      throw new Error("Failed to send email");
     }
-    */
   } catch (error) {
-    console.error("Error sending email:", error)
-    return { success: false, error: (error as Error).message }
+    console.error("Error sending email:", error);
+    return { success: false, error: (error as Error).message };
   }
 }
-
