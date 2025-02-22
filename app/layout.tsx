@@ -9,6 +9,7 @@ import Logo from "@/components/logo";
 import { NextIntlClientProvider } from "next-intl";
 
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
+import Providers from "@/providers";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -145,13 +146,15 @@ export default async function RootLayout({
       className={`${playfair.variable} ${montserrat.variable}`}
     >
       <body className="font-sans">
-        <CartProvider>
-          <NextIntlClientProvider messages={messages}>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </NextIntlClientProvider>
-        </CartProvider>
+        <Providers>
+          <CartProvider>
+            <NextIntlClientProvider messages={messages}>
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+            </NextIntlClientProvider>
+          </CartProvider>
+        </Providers>
       </body>
     </html>
   );
