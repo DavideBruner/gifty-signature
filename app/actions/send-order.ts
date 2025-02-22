@@ -53,6 +53,7 @@ export async function sendOrderEmail(orderDetails: {
           .join("<hr/>")}
         
         <h2>Total Items: ${orderDetails.items.length}</h2>
+        <h3>Price: ${orderDetails.total} €</h2>
       `,
     });
 
