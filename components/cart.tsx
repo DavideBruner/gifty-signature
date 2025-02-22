@@ -14,7 +14,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { products } from "@/data/products";
-import { sendOrderEmail } from "@/app/actions/send-order";
 
 export function Cart() {
   const { state, dispatch } = useCart();
@@ -29,13 +28,20 @@ export function Cart() {
   const handleSubmitOrder = async () => {
     setIsSubmitting(true);
     try {
-      const result = await sendOrderEmail({
-        items: state.items,
-        total: state.total,
-        customerInfo,
+      const result = await fetch("/api/email/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: state.items,
+          total: state.total,
+          customerInfo,
+        }),
       });
 
-      if (result.success) {
+      const data = await result.json();
+      if (data?.success) {
         dispatch({ type: "CLEAR_CART" });
         setCustomerInfo({
           name: "",
@@ -44,7 +50,7 @@ export function Cart() {
           message: "",
         });
       } else {
-        throw new Error(result.error);
+        throw new Error(data?.error);
       }
     } catch (error) {
       console.error("Failed to submit order:", error);
