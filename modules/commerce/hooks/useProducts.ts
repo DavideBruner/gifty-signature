@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { Product } from "@/types/product";
+import type { Product } from "@/modules/commerce/types/product";
 import { products } from "@/data/products";
 
 // This is a mock function that simulates fetching products from an API

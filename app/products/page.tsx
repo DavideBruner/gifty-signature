@@ -11,7 +11,7 @@ import {
   useAnimation,
   AnimatePresence,
 } from "framer-motion";
-import { useProducts } from "@/hooks/useProducts";
+import { useProducts } from "@/modules/commerce/hooks/useProducts";
 import { categories } from "@/data/products";
 import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";

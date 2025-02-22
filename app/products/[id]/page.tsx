@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useCart } from "@/context/cart-context";
+import { useCart } from "@/modules/commerce/context/cart-context";
 import { products } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

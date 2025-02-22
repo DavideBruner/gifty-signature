@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { createContext, useContext, useReducer } from "react";
-import type { ProductVariant } from "@/types/product";
+import type { ProductVariant } from "@/modules/commerce/types/product";
 
 export type CartItem = {
   productId: string;

@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { CartItem } from "@/context/cart-context";
+import { CartItem } from "@/modules/commerce/context/cart-context";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,

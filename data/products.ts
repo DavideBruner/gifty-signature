@@ -1,4 +1,7 @@
-import type { Product, ProductCategory } from "@/types/product";
+import type {
+  Product,
+  ProductCategory,
+} from "@/modules/commerce/types/product";
 
 export const categories: ProductCategory[] = [
   {
