@@ -23,8 +23,6 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-export const runtime = "edge";
-
 export const metadata: Metadata = {
   title:
     "GiftySignature | Personalized Luxury Gift Boxes & Floral Arrangements",
@@ -32,14 +30,6 @@ export const metadata: Metadata = {
     "Transform special moments with elegant, personalized gift experiences. Custom gift boxes, fresh flowers, and carefully curated items for your memorable occasions.",
   keywords:
     "personalized gifts, luxury gift boxes, custom floral arrangements, elegant presents, gift customization, special occasions, premium gifts, Malaga gifts",
-};
-
-export const env = {
-  SMTP_HOST: process.env.SMTP_HOST!,
-  SMTP_PORT: process.env.SMTP_PORT!,
-  SMTP_SECURE: process.env.SMTP_SECURE!,
-  SMTP_USER: process.env.SMTP_USER!,
-  SMTP_PASS: process.env.SMTP_PASS!,
 };
 
 const Navbar = async () => {
