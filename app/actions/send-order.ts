@@ -1,7 +1,5 @@
-"use server";
-
-import { CartItem } from "@/context/cart-context";
 import nodemailer from "nodemailer";
+import { CartItem } from "@/context/cart-context";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
