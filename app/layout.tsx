@@ -10,7 +10,7 @@ import Providers from "@/providers";
 import { CartProvider } from "@/modules/commerce/context/cart-context";
 import { Cart } from "@/modules/commerce/components/cart";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import Logo from "@/components/theme-logo";
+import Logo from "@/components/logo";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
