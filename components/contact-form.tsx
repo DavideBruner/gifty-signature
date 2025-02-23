@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { celebrate } from "@/lib/party";
 import { useTranslations } from "next-intl";
+import useEmail from "@/hooks/use-email";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -18,6 +19,7 @@ const fadeIn = {
 export function ContactForm() {
   const t = useTranslations("ContactPage.form");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { sendEmail } = useEmail();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,20 +33,11 @@ export function ContactForm() {
     e?.preventDefault();
     setIsSubmitting(true);
     try {
-      const result = await fetch("/api/email/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          type: "info_email",
-        }),
+      const data = await sendEmail({
+        ...formData,
+        type: "info_email",
       });
-
-      const data = await result.json();
       if (data?.success) {
-        console.log("Form submitted:", formData);
         celebrate();
         toast.success(t("success"));
         setFormData({ name: "", email: "", phone: "", message: "" });
@@ -117,6 +110,7 @@ export function ContactForm() {
       </motion.div>
       <motion.div variants={fadeIn}>
         <Button
+          disabled={isSubmitting}
           type="submit"
           className="w-full bg-brand-brown hover:bg-brand-brown/90 text-white"
         >

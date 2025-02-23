@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { ShoppingBag } from "lucide-react";
-import { useCart } from "@/modules/commerce/context/cart-context";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -11,57 +12,52 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { products } from "@/data/products";
+import { CartItem, Product } from "../types/product";
+import { useCart } from "../context/cart-context";
+import { toast } from "sonner";
+
+function calculateItemPrice(item: CartItem, product: Product): number {
+  let price = product.basePrice;
+
+  // Add variant prices
+  if (product.variantFields && item.selectedVariants) {
+    for (const field of product.variantFields) {
+      const selectedOptionId = item.selectedVariants[field.id];
+      if (selectedOptionId) {
+        const option = field.options.find((opt) => opt.id === selectedOptionId);
+        if (option?.price) {
+          price += option.price;
+        }
+      }
+    }
+  }
+
+  // Add customization prices
+  if (product.customizationFields && item.customization) {
+    for (const field of product.customizationFields) {
+      if (field.price && item.customization[field.id]) {
+        price += field.price;
+      }
+    }
+  }
+
+  return price * item.quantity;
+}
 
 export function Cart() {
   const { state, dispatch } = useCart();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [customerInfo, setCustomerInfo] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
 
-  const handleSubmitOrder = async () => {
-    setIsSubmitting(true);
-    try {
-      const result = await fetch("/api/email/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          items: state.items,
-          total: state.total,
-          customerInfo,
-          type: "order_email",
-        }),
-      });
+  const [isOpen, setIsOpen] = useState(false);
 
-      const data = await result.json();
-      if (data?.success) {
-        dispatch({ type: "CLEAR_CART" });
-        setCustomerInfo({
-          name: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-      } else {
-        throw new Error(data?.error);
-      }
-    } catch (error) {
-      console.error("Failed to submit order:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const cartTotal = state.items.reduce((total, item) => {
+    const product = products.find((p) => p.id === item.productId);
+    if (!product) return total;
+    return total + calculateItemPrice(item, product);
+  }, 0);
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" className="relative">
           <ShoppingBag className="h-6 w-6" />
@@ -72,111 +68,129 @@ export function Cart() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="bg-brand-pink">
+      <SheetContent className="flex flex-col h-full">
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
         </SheetHeader>
-        <div className="mt-8 space-y-4">
-          {state.items.map((item) => {
-            const product = products.find((p) => p.id === item.productId);
-            if (!product) return null;
 
-            return (
-              <div key={item.productId} className="flex items-center gap-4">
-                <img
-                  src={product.images[0] || "/placeholder.svg"}
-                  alt={product.name}
-                  className="w-16 h-16 object-cover rounded"
-                />
-                <div className="flex-1">
-                  <h3 className="font-medium">{product.name}</h3>
-                  <p className="text-sm text-gray-500">
-                    Quantity: {item.quantity}
-                    {item?.variants && (
-                      <span>
-                        {" "}
-                        -{" "}
-                        {Object.values(item.variants)
-                          .map((v) => v)
-                          .join(", ")}
-                      </span>
-                    )}
-                  </p>
-                  {item.customization && (
-                    <p className="text-sm text-gray-500">
-                      Customization: {JSON.stringify(item.customization)}
-                    </p>
-                  )}
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() =>
-                    dispatch({
-                      type: "REMOVE_ITEM",
-                      payload: { productId: item.productId },
-                    })
-                  }
-                >
-                  Remove
-                </Button>
-              </div>
-            );
-          })}
-
-          {state.items.length > 0 ? (
-            <div className="space-y-4 pt-4">
-              <Input
-                placeholder="Your Name"
-                value={customerInfo.name}
-                onChange={(e) =>
-                  setCustomerInfo((prev) => ({ ...prev, name: e.target.value }))
-                }
-              />
-              <Input
-                type="email"
-                placeholder="Your Email"
-                value={customerInfo.email}
-                onChange={(e) =>
-                  setCustomerInfo((prev) => ({
-                    ...prev,
-                    email: e.target.value,
-                  }))
-                }
-              />
-              <Input
-                type="tel"
-                placeholder="Your Phone"
-                value={customerInfo.phone}
-                onChange={(e) =>
-                  setCustomerInfo((prev) => ({
-                    ...prev,
-                    phone: e.target.value,
-                  }))
-                }
-              />
-              <Textarea
-                placeholder="Additional Notes"
-                value={customerInfo.message}
-                onChange={(e) =>
-                  setCustomerInfo((prev) => ({
-                    ...prev,
-                    message: e.target.value,
-                  }))
-                }
-              />
-              <Button
-                className="w-full bg-brand-brown hover:bg-brand-brown/90 text-white"
-                onClick={handleSubmitOrder}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Sending..." : "Send Order Request"}
-              </Button>
+        <div className="flex-1 overflow-auto py-6">
+          {state.items.length === 0 ? (
+            <div className="text-center py-6">
+              <p className="text-muted-foreground">Your cart is empty</p>
             </div>
           ) : (
-            <p className="text-center text-gray-500">Your cart is empty</p>
+            <div className="space-y-6">
+              {state.items.map((item) => {
+                const product = products.find((p) => p.id === item.productId);
+                if (!product) return null;
+
+                const itemPrice = calculateItemPrice(item, product);
+
+                return (
+                  <div key={item.productId} className="flex gap-4">
+                    <div className="relative aspect-square h-24 w-24 overflow-hidden rounded-lg">
+                      <img
+                        src={product.images[0] || "/placeholder.svg"}
+                        alt={product.name}
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col">
+                      <div className="flex justify-between">
+                        <div>
+                          <h3 className="font-medium">{product.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Quantity: {item.quantity}
+                          </p>
+                          {item.selectedVariants &&
+                            Object.entries(item.selectedVariants).map(
+                              ([fieldId, optionId]) => {
+                                const field = product.variantFields?.find(
+                                  (f) => f.id === fieldId
+                                );
+                                const option = field?.options.find(
+                                  (o) => o.id === optionId
+                                );
+                                if (!field || !option) return null;
+                                return (
+                                  <p
+                                    key={fieldId}
+                                    className="text-sm text-muted-foreground"
+                                  >
+                                    {field.name}: {option.name}
+                                    {option.price
+                                      ? ` (+€${option.price.toFixed(2)})`
+                                      : ""}
+                                  </p>
+                                );
+                              }
+                            )}
+                          {item.customization &&
+                            Object.entries(item.customization).map(
+                              ([fieldId, value]) => {
+                                const field = product.customizationFields?.find(
+                                  (f) => f.id === fieldId
+                                );
+                                if (!field) return null;
+                                return (
+                                  <p
+                                    key={fieldId}
+                                    className="text-sm text-muted-foreground"
+                                  >
+                                    {field.label}: {value}
+                                    {field.price
+                                      ? ` (+€${field.price.toFixed(2)})`
+                                      : ""}
+                                  </p>
+                                );
+                              }
+                            )}
+                        </div>
+                        <p className="font-medium">€{itemPrice.toFixed(2)}</p>
+                      </div>
+                      <div className="mt-2 flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            dispatch({
+                              type: "REMOVE_ITEM",
+                              payload: { productId: item.productId },
+                            });
+                            toast.message(`${product.name} removed from cart`);
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
+
+        {state.items.length > 0 && (
+          <div className="border-t pt-4">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">Subtotal</span>
+                <span className="font-medium">€{cartTotal.toFixed(2)}</span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Shipping costs will be calculated during the quotation process.
+              </p>
+              <Button
+                className="w-full bg-brand-brown hover:bg-brand-brown/90 text-white"
+                onClick={() => setIsOpen(false)}
+                asChild
+              >
+                <Link href="/checkout">Proceed to Checkout</Link>
+              </Button>
+            </div>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

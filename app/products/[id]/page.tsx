@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { useCart } from "@/modules/commerce/context/cart-context";
+
 import { products } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,74 +13,87 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCart } from "@/modules/commerce/context/cart-context";
+import {
+  CustomizationValues,
+  SelectedVariants,
+} from "@/modules/commerce/types/product";
 import { toast } from "sonner";
+import { celebrate } from "@/lib/party";
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-  const product = products.find((p) => p.id === params.id);
   const { dispatch } = useCart();
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariants, setSelectedVariants] = useState<
-    Record<string, string>
-  >({});
-  const [customization, setCustomization] = useState<Record<string, string>>(
+  const [selectedVariants, setSelectedVariants] = useState<SelectedVariants>(
     {}
   );
+  const [customization, setCustomization] = useState<CustomizationValues>({});
 
+  // Find the product
+  const product = products.find((p) => p.id === params.id);
+
+  // If product is not found, show error state
   if (!product) {
-    return <div>Product not found</div>;
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 className="text-2xl font-serif text-brand-brown">
+          Product not found
+        </h1>
+      </div>
+    );
   }
 
-  const price = useMemo(() => {
-    // Calculate variants price
-    const variantsPrice =
-      product.variantFields?.reduce((total, field) => {
+  const calculateTotalPrice = () => {
+    let total = product.basePrice;
+
+    // Add variant prices
+    if (product.variantFields) {
+      for (const field of product.variantFields) {
         const selectedOptionId = selectedVariants[field.id];
         if (selectedOptionId) {
-          const selectedOption = field.options.find(
+          const option = field.options.find(
             (opt) => opt.id === selectedOptionId
           );
-          return total + (selectedOption?.price || 0);
+          if (option?.price) {
+            total += option.price;
+          }
         }
-        return total;
-      }, 0) ?? 0;
+      }
+    }
 
-    // Calculate customization price
-    const customizationPrice =
-      product.customizationFields?.reduce((total, field) => {
+    // Add customization prices
+    if (product.customizationFields) {
+      for (const field of product.customizationFields) {
         if (field.price && customization[field.id]) {
-          if (field.type === "select") {
-            return total + field.price;
-          }
-          if (customization[field.id].trim() !== "") {
-            return total + field.price;
-          }
+          total += field.price;
         }
-        return total;
-      }, 0) ?? 0;
+      }
+    }
 
-    // Calculate total price
-    return (product.basePrice + variantsPrice + customizationPrice).toFixed(2);
-  }, [
-    product.basePrice,
-    product.variantFields,
-    product.customizationFields,
-    selectedVariants,
-    customization,
-  ]);
+    return total * quantity;
+  };
 
   const handleAddToCart = () => {
-    // Validate required variants are selected
-    const missingRequiredVariants = product.variantFields?.some(
-      (field) => !selectedVariants[field.id]
-    );
+    // Validate required variants
+    if (product.variantFields) {
+      for (const field of product.variantFields) {
+        if (!selectedVariants[field.id]) {
+          toast.error(`Please select ${field.name}`);
+          return;
+        }
+      }
+    }
 
-    if (missingRequiredVariants) {
-      toast.error("Please select all options", {
-        description:
-          "All variant options must be selected before adding to cart.",
-      });
-      return;
+    // Validate required customizations
+    if (product.customizationFields) {
+      for (const field of product.customizationFields) {
+        if (field.required && !customization[field.id]) {
+          toast.error(`Please fill in ${field.label}`);
+          return;
+        }
+      }
     }
 
     dispatch({
@@ -88,14 +101,12 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       payload: {
         productId: product.id,
         quantity,
-        variants: selectedVariants,
+        selectedVariants,
         customization,
       },
     });
-
-    toast.success("Added to cart", {
-      description: `${product.name} has been added to your cart.`,
-    });
+    toast.success(`${product.name} added to cart`);
+    celebrate();
   };
 
   return (
@@ -134,7 +145,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <h1 className="font-serif text-4xl text-brand-brown mb-4">
             {product.name}
           </h1>
-          <p className="text-xl text-brand-dark mb-6">€{price}</p>
+          <p className="text-xl text-brand-dark mb-6">
+            From €{product.basePrice.toFixed(2)}
+          </p>
           <p className="text-brand-dark mb-8">{product.description}</p>
 
           {product.variantFields?.map((field) => (
@@ -173,6 +186,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               <label className="block text-sm font-medium text-brand-dark mb-2">
                 {field.label}
                 {field.price ? ` (+€${field.price.toFixed(2)})` : ""}
+                {field.required && " *"}
               </label>
               {field.type === "select" ? (
                 <Select
@@ -233,9 +247,17 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               type="number"
               min="1"
               value={quantity}
-              onChange={(e) => setQuantity(Number.parseInt(e.target.value))}
+              onChange={(e) =>
+                setQuantity(Math.max(1, Number.parseInt(e.target.value) || 1))
+              }
               className="w-24"
             />
+          </div>
+
+          <div className="mb-6">
+            <p className="text-lg font-medium">
+              Total: €{calculateTotalPrice().toFixed(2)}
+            </p>
           </div>
 
           <Button

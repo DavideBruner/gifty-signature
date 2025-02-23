@@ -38,3 +38,21 @@ export type CustomizationField = {
   required: boolean;
   price?: number;
 };
+
+// Type for selected variants in cart/order
+export type SelectedVariants = {
+  [fieldId: string]: string; // variantFieldId: selectedOptionId
+};
+
+// Type for customization values in cart/order
+export type CustomizationValues = {
+  [fieldId: string]: string;
+};
+
+// Updated cart item type
+export type CartItem = {
+  productId: string;
+  quantity: number;
+  selectedVariants?: SelectedVariants;
+  customization?: CustomizationValues;
+};
