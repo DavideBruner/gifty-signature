@@ -132,7 +132,6 @@ export const products: Product[] = [
           "Mixed Colors",
         ],
         required: true,
-        price: 10,
       },
     ],
   },

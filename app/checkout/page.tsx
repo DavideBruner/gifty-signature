@@ -13,10 +13,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { products } from "@/data/products";
 import { CartItem, Product } from "@/modules/commerce/types/product";
-import { useCart } from "@/modules/commerce/context/cart-context";
 import useEmail from "@/hooks/use-email";
 import { toast } from "sonner";
 import { celebrate } from "@/lib/party";
+import { useCommerce } from "@/modules/commerce/context/commerce";
 
 const steps = [
   {
@@ -64,7 +64,7 @@ function calculateItemPrice(item: CartItem, product: Product): number {
 export default function CheckoutPage() {
   const router = useRouter();
   const { sendEmail } = useEmail();
-  const { state, dispatch } = useCart();
+  const { cart, removeItem, addItem, clearCart } = useCommerce();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -94,7 +94,7 @@ export default function CheckoutPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const cartTotal = state.items.reduce((total, item) => {
+  const cartTotal = cart.items.reduce((total, item) => {
     const product = products.find((p) => p.id === item.productId);
     if (!product) return total;
     return total + calculateItemPrice(item, product);
@@ -106,7 +106,7 @@ export default function CheckoutPage() {
 
     try {
       const result = await sendEmail({
-        items: state.items,
+        items: cart.items,
         total: cartTotal,
         customerInfo: {
           name: `${formData.firstName} ${formData.lastName}`,
@@ -118,7 +118,7 @@ export default function CheckoutPage() {
       });
 
       if (result.success) {
-        dispatch({ type: "CLEAR_CART" });
+        clearCart();
         toast.success("Order submitted successfully!");
         celebrate();
         router.push("/checkout/success");
@@ -310,7 +310,7 @@ export default function CheckoutPage() {
 
               <div className="border rounded-lg p-4 space-y-4">
                 <h3 className="font-medium">Order Summary</h3>
-                {state.items.map((item) => {
+                {cart.items.map((item) => {
                   const product = products.find((p) => p.id === item.productId);
                   if (!product) return null;
 

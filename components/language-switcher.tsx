@@ -31,8 +31,7 @@ const languages = [
 
 export function LanguageSwitcher() {
   const router = useRouter();
-  const pathname = usePathname();
-  const [currentLang, setCurrentLang] = useState("");
+  const [currentLang, setCurrentLang] = useState("en");
 
   useEffect(() => {
     // Get initial language from cookie

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sheet";
 import { products } from "@/data/products";
 import { CartItem, Product } from "../types/product";
-import { useCart } from "../context/cart-context";
+import { useCommerce } from "../context/commerce";
 import { toast } from "sonner";
 
 function calculateItemPrice(item: CartItem, product: Product): number {
@@ -46,11 +46,11 @@ function calculateItemPrice(item: CartItem, product: Product): number {
 }
 
 export function Cart() {
-  const { state, dispatch } = useCart();
+  const { cart, removeItem } = useCommerce();
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const cartTotal = state.items.reduce((total, item) => {
+  const cartTotal = cart.items.reduce((total, item) => {
     const product = products.find((p) => p.id === item.productId);
     if (!product) return total;
     return total + calculateItemPrice(item, product);
@@ -61,9 +61,9 @@ export function Cart() {
       <SheetTrigger asChild>
         <Button variant="ghost" className="relative">
           <ShoppingBag className="h-6 w-6" />
-          {state.items.length > 0 && (
+          {cart.items.length > 0 && (
             <span className="absolute -top-1 -right-1 bg-brand-brown text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-              {state.items.length}
+              {cart.items.length}
             </span>
           )}
         </Button>
@@ -74,13 +74,13 @@ export function Cart() {
         </SheetHeader>
 
         <div className="flex-1 overflow-auto py-6">
-          {state.items.length === 0 ? (
+          {cart.items.length === 0 ? (
             <div className="text-center py-6">
               <p className="text-muted-foreground">Your cart is empty</p>
             </div>
           ) : (
             <div className="space-y-6">
-              {state.items.map((item) => {
+              {cart.items.map((item) => {
                 const product = products.find((p) => p.id === item.productId);
                 if (!product) return null;
 
@@ -153,10 +153,7 @@ export function Cart() {
                           variant="outline"
                           size="sm"
                           onClick={() => {
-                            dispatch({
-                              type: "REMOVE_ITEM",
-                              payload: { productId: item.productId },
-                            });
+                            removeItem(item.productId);
                             toast.message(`${product.name} removed from cart`);
                           }}
                         >
@@ -171,7 +168,7 @@ export function Cart() {
           )}
         </div>
 
-        {state.items.length > 0 && (
+        {cart.items.length > 0 && (
           <div className="border-t pt-4">
             <div className="space-y-4">
               <div className="flex justify-between items-center">

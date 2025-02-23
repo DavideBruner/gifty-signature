@@ -1,5 +1,6 @@
+import { products } from "@/data/products";
+import { CartItem } from "@/modules/commerce/types/product";
 import nodemailer from "nodemailer";
-import { CartItem } from "@/modules/commerce/context/cart-context";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -27,33 +28,76 @@ export async function sendOrderEmail(orderDetails: {
       to: "info@giftysignature.com",
       subject: "New Order Request",
       html: `
-        <h1>New Order Request</h1>
-        <h2>Customer Information</h2>
-        <p>Name: ${orderDetails.customerInfo.name}</p>
-        <p>Email: ${orderDetails.customerInfo.email}</p>
-        <p>Phone: ${orderDetails.customerInfo.phone}</p>
-        <p>Message: ${orderDetails.customerInfo.message}</p>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px;">New Order Request</h1>
         
-        <h2>Order Items</h2>
+        <div style="background-color: #f9f9f9; padding: 15px; margin: 15px 0; border-radius: 5px;">
+        <h2 style="color: #444; margin-top: 0;">Customer Information</h2>
+        <p><strong>Name:</strong> ${orderDetails.customerInfo.name}</p>
+        <p><strong>Email:</strong> ${orderDetails.customerInfo.email}</p>
+        <p><strong>Phone:</strong> ${orderDetails.customerInfo.phone}</p>
+        <p><strong>Message:</strong> ${orderDetails.customerInfo.message}</p>
+        </div>
+
+        <h2 style="color: #444;">Order Items</h2>
         ${orderDetails.items
-          .map(
-            (item) => `
-          <div>
-            <p>Product ID: ${item.productId}</p>
-            <p>Quantity: ${item.quantity}</p>
-            ${item.variant ? `<p>Variant: ${item.variant.name}</p>` : ""}
-            ${
-              item.customization
-                ? `<p>Customization: ${JSON.stringify(item.customization)}</p>`
-                : ""
-            }
-          </div>
-        `
-          )
-          .join("<hr/>")}
-        
-        <h2>Total Items: ${orderDetails.items.length}</h2>
-        <h3>Price: ${orderDetails.total} €</h2>
+          .map((item) => {
+            const product = products.find((p) => p.id === item.productId);
+
+            return `
+        <div style="border: 1px solid #eee; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+          <p><strong>Product ID:</strong> ${item.productId}</p>
+          <p><strong>Quantity:</strong> ${item.quantity}</p>
+          ${
+            item.selectedVariants
+              ? Object.entries(item.selectedVariants)
+                  .map(([fieldId, optionId]) => {
+                    const field = product?.variantFields?.find(
+                      (f) => f.id === fieldId
+                    );
+                    const option = field?.options.find(
+                      (o) => o.id === optionId
+                    );
+                    if (!field || !option) return "";
+                    return `<p style="color: #666; font-size: 14pxxw;">
+              ${field.name}: ${option.name}${
+                      option.price ? ` (+€${option.price.toFixed(2)})` : ""
+                    }
+            </p>`;
+                  })
+                  .join("")
+              : ""
+          }
+          ${
+            item.customization
+              ? Object.entries(item.customization)
+                  .map(([fieldId, value]) => {
+                    const field = product?.customizationFields?.find(
+                      (f) => f.id === fieldId
+                    );
+                    if (!field) return "";
+                    return `<p style="color: #666; font-size: 14px;">
+              ${field.label}: ${value}${
+                      field.price ? ` (+€${field.price.toFixed(2)})` : ""
+                    }
+            </p>`;
+                  })
+                  .join("")
+              : ""
+          }
+        </div>
+        `;
+          })
+          .join("")}
+
+        <div style="background-color: #f9f9f9; padding: 15px; margin-top: 20px; border-radius: 5px;">
+        <h2 style="color: #444; margin-top: 0;">Order Summary</h2>
+        <p><strong>Total Items:</strong> ${orderDetails.items.length}</p>
+        <p style="font-size: 18px;"><strong>Total Price:</strong> €${orderDetails.total.toFixed(
+          2
+        )}</p>
+        </div>
+      </div>
       `,
     });
 

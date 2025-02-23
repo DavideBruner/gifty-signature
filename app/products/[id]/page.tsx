@@ -13,16 +13,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCart } from "@/modules/commerce/context/cart-context";
+
 import {
   CustomizationValues,
   SelectedVariants,
 } from "@/modules/commerce/types/product";
 import { toast } from "sonner";
 import { celebrate } from "@/lib/party";
+import { useCommerce } from "@/modules/commerce/context/commerce";
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-  const { dispatch } = useCart();
+  const { addItem } = useCommerce();
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -96,14 +97,11 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       }
     }
 
-    dispatch({
-      type: "ADD_ITEM",
-      payload: {
-        productId: product.id,
-        quantity,
-        selectedVariants,
-        customization,
-      },
+    addItem({
+      productId: product.id,
+      quantity,
+      selectedVariants,
+      customization,
     });
     toast.success(`${product.name} added to cart`);
     celebrate();

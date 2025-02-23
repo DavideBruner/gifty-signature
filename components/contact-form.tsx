@@ -1,13 +1,14 @@
 "use client";
 
 import { toast } from "sonner";
-import { FormEventHandler, SyntheticEvent, use, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
+import { SyntheticEvent, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { celebrate } from "@/lib/party";
-import { useTranslations } from "next-intl";
 import useEmail from "@/hooks/use-email";
 
 const fadeIn = {
