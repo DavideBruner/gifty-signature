@@ -10,6 +10,10 @@
     "follow": "Síguenos",
     "newsletter": {
       "title": "Boletín",
+      "email": "Ingresa tu correo electrónico",
+      "submit": "Suscribirse",
+      "success": "Gracias por suscribirte a nuestro boletín.",
+      "error": "Ha ocurrido un error al suscribirte al boletín. Por favor, inténtalo de nuevo más tarde.",
       "description": "Suscríbete para recibir actualizaciones y ofertas exclusivas",
       "copyright": "{year} GiftySignature. Todos los derechos reservados."
     }
@@ -57,6 +61,15 @@
     "location": {
       "title": "Nuestra Ubicación",
       "address": "Rincón de la Victoria, Málaga"
+    },
+    "form": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone": "Número de teléfono",
+      "message": "Cuéntanos sobre tu idea de regalo",
+      "submit": "Enviar mensaje",
+      "success": "Gracias por tu mensaje. Te responderemos lo antes posible.",
+      "error": "Ha ocurrido un error al enviar tu mensaje. Por favor, inténtalo de nuevo más tarde."
     }
   },
   "CollectionPage": {

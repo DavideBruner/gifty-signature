@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { toast } from "sonner";
+import { FormEventHandler, SyntheticEvent, use, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { celebrate } from "@/lib/party";
+import { useTranslations } from "next-intl";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -13,6 +16,7 @@ const fadeIn = {
 };
 
 export function ContactForm() {
+  const t = useTranslations("ContactPage.form");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +25,10 @@ export function ContactForm() {
     message: "",
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (
+    e: SyntheticEvent<HTMLFormElement> | undefined
+  ) => {
+    e?.preventDefault();
     setIsSubmitting(true);
     try {
       const result = await fetch("/api/email/send", {
@@ -38,13 +45,15 @@ export function ContactForm() {
       const data = await result.json();
       if (data?.success) {
         console.log("Form submitted:", formData);
-        alert("Thank you for your message. We will get back to you soon!");
+        celebrate();
+        toast.success(t("success"));
         setFormData({ name: "", email: "", phone: "", message: "" });
       } else {
         throw new Error(data?.error);
       }
       // Here you would typically send the form data to your backend
     } catch (error) {
+      toast.success(t("error"));
       console.error("Failed to submit order:", error);
     } finally {
       setIsSubmitting(false);
@@ -70,7 +79,7 @@ export function ContactForm() {
         <Input
           type="text"
           name="name"
-          placeholder="Your Name"
+          placeholder={t("name")}
           value={formData.name}
           onChange={handleChange}
           required
@@ -80,7 +89,7 @@ export function ContactForm() {
         <Input
           type="email"
           name="email"
-          placeholder="Your Email"
+          placeholder={t("email")}
           value={formData.email}
           onChange={handleChange}
           required
@@ -90,7 +99,7 @@ export function ContactForm() {
         <Input
           type="tel"
           name="phone"
-          placeholder="Your Phone Number"
+          placeholder={t("phone")}
           value={formData.phone}
           onChange={handleChange}
           required
@@ -99,7 +108,7 @@ export function ContactForm() {
       <motion.div variants={fadeIn}>
         <Textarea
           name="message"
-          placeholder="Tell us about your gift idea"
+          placeholder={t("message")}
           rows={4}
           value={formData.message}
           onChange={handleChange}
@@ -111,7 +120,7 @@ export function ContactForm() {
           type="submit"
           className="w-full bg-brand-brown hover:bg-brand-brown/90 text-white"
         >
-          Send Request
+          {t("submit")}
         </Button>
       </motion.div>
     </motion.form>

@@ -92,7 +92,15 @@ export function Cart() {
                   <h3 className="font-medium">{product.name}</h3>
                   <p className="text-sm text-gray-500">
                     Quantity: {item.quantity}
-                    {item.variant && ` - ${item.variant.name}`}
+                    {item?.variants && (
+                      <span>
+                        {" "}
+                        -{" "}
+                        {Object.values(item.variants)
+                          .map((v) => v)
+                          .join(", ")}
+                      </span>
+                    )}
                   </p>
                   {item.customization && (
                     <p className="text-sm text-gray-500">

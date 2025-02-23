@@ -55,8 +55,8 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="ghost"
-          className="w-[100px] flex items-center justify-between gap-2"
+          variant="outline"
+          className="flex items-center gap-2 bg-brand-pink text-brand-brown px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors justify-center w-full"
         >
           <span className="text-xl">{currentLanguage?.flag}</span>
           <span>{currentLanguage?.name}</span>

@@ -10,6 +10,10 @@
     "follow": "Seguici",
     "newsletter": {
       "title": "Newsletter",
+      "email": "Inserisci la tua email",
+      "submit": "Iscriviti",
+      "success": "Grazie per esserti iscritto alla nostra newsletter.",
+      "error": "Si è verificato un errore durante l'iscrizione alla newsletter. Per favore riprova più tardi.",
       "description": "Iscriviti per aggiornamenti e offerte esclusive",
       "copyright": "{year} GiftySignature. Tutti i diritti riservati."
     }
@@ -57,6 +61,15 @@
     "location": {
       "title": "La Nostra Sede",
       "address": "Rincon de la Victoria, Malaga"
+    },
+    "form": {
+      "name": "Nome",
+      "email": "Email",
+      "phone": "Numero di Telefono",
+      "message": "Parlaci della tua idea regalo",
+      "submit": "Invia Messaggio",
+      "success": "Grazie per il tuo messaggio. Ti risponderemo il prima possibile.",
+      "error": "Si è verificato un errore durante l'invio del messaggio. Per favore riprova più tardi."
     }
   },
   "CollectionPage": {
