@@ -3,6 +3,8 @@
 import React from "react";
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { SelectedVariants } from "../types/product";
+import { products } from "@/data/products";
+import { calculateItemPrice } from "../utils/price";
 
 // Types
 type CartItem = {
@@ -99,6 +101,7 @@ class LocalStorageFetcher implements CommerceFetcher {
 // Commerce context
 type CommerceContextType = {
   cart: CartState;
+  total: number;
   addItem: (item: CartItem) => Promise<void>;
   removeItem: (productId: string) => Promise<void>;
   updateQuantity: (productId: string, quantity: number) => Promise<void>;
@@ -149,6 +152,11 @@ export function CommerceProvider({
   const commerceOperations: CommerceContextType = {
     cart,
     isLoading,
+    total: cart.items.reduce((total, item) => {
+      const product = products.find((p) => p.id === item.productId);
+      if (!product) return total;
+      return total + calculateItemPrice(item, product);
+    }, 0),
     async addItem(item) {
       setIsLoading(true);
       try {

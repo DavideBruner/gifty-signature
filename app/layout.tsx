@@ -7,7 +7,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 
 import Providers from "@/providers";
-import { CommerceProvider } from "@/modules/commerce/context/commerce";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
@@ -47,11 +46,9 @@ export default async function RootLayout({
       <body className="font-sans">
         <Providers>
           <NextIntlClientProvider messages={messages}>
-            <CommerceProvider>
-              <Navbar />
-              <main>{children}</main>
-              <Footer />
-            </CommerceProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
           </NextIntlClientProvider>
         </Providers>
       </body>

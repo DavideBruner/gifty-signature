@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import { Analytics } from "./analytics";
 import { ThemeProvider } from "./theme";
+import { CommerceProvider } from "@/modules/commerce/context/commerce";
 
 export default function Providers({ children }: PropsWithChildren) {
   return (
@@ -15,8 +16,7 @@ export default function Providers({ children }: PropsWithChildren) {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
-
+      <CommerceProvider>{children}</CommerceProvider>
       <Toaster closeButton />
       <Analytics
         enabled={true}

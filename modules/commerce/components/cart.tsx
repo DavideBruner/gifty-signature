@@ -13,48 +13,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { products } from "@/data/products";
-import { CartItem, Product } from "../types/product";
 import { useCommerce } from "../context/commerce";
 import { toast } from "sonner";
-
-function calculateItemPrice(item: CartItem, product: Product): number {
-  let price = product.basePrice;
-
-  // Add variant prices
-  if (product.variantFields && item.selectedVariants) {
-    for (const field of product.variantFields) {
-      const selectedOptionId = item.selectedVariants[field.id];
-      if (selectedOptionId) {
-        const option = field.options.find((opt) => opt.id === selectedOptionId);
-        if (option?.price) {
-          price += option.price;
-        }
-      }
-    }
-  }
-
-  // Add customization prices
-  if (product.customizationFields && item.customization) {
-    for (const field of product.customizationFields) {
-      if (field.price && item.customization[field.id]) {
-        price += field.price;
-      }
-    }
-  }
-
-  return price * item.quantity;
-}
+import { calculateItemPrice } from "../utils/price";
 
 export function Cart() {
-  const { cart, removeItem } = useCommerce();
-
   const [isOpen, setIsOpen] = useState(false);
-
-  const cartTotal = cart.items.reduce((total, item) => {
-    const product = products.find((p) => p.id === item.productId);
-    if (!product) return total;
-    return total + calculateItemPrice(item, product);
-  }, 0);
+  const { cart, total, removeItem } = useCommerce();
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -173,7 +138,7 @@ export function Cart() {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="font-medium">Subtotal</span>
-                <span className="font-medium">€{cartTotal.toFixed(2)}</span>
+                <span className="font-medium">€{total.toFixed(2)}</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 Shipping costs will be calculated during the quotation process.
