@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const product = products.find((p) => p.id === params.id);
@@ -76,11 +76,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     );
 
     if (missingRequiredVariants) {
-      toast({
-        title: "Please select all options",
+      toast.error("Please select all options", {
         description:
           "All variant options must be selected before adding to cart.",
-        variant: "destructive",
       });
       return;
     }
@@ -95,8 +93,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       },
     });
 
-    toast({
-      title: "Added to cart",
+    toast.success("Added to cart", {
       description: `${product.name} has been added to your cart.`,
     });
   };
