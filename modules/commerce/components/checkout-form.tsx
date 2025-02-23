@@ -81,6 +81,13 @@ export function CheckoutForm() {
           phone: formData.phone,
           message: formData.specialInstructions,
         },
+        shipping: {
+          address: formData.address,
+          city: formData.city,
+          postalCode: formData.postalCode,
+          country: formData.country,
+          method: formData.shippingMethod,
+        },
         type: "order_email",
       });
 

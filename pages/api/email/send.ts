@@ -7,8 +7,13 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     if (req.body.type == "order_email") {
-      const { items, total, customerInfo } = req.body;
-      const data = await sendOrderEmail({ items, total, customerInfo });
+      const { items, total, customerInfo, shipping } = req.body;
+      const data = await sendOrderEmail({
+        items,
+        total,
+        customerInfo,
+        shipping,
+      });
       if (data?.success) {
         return res.status(200).json(data);
       }

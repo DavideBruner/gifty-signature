@@ -21,6 +21,12 @@ export async function sendOrderEmail(orderDetails: {
     phone: string;
     message: string;
   };
+  shipping: {
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
 }) {
   try {
     const info = await transporter.sendMail({
@@ -37,6 +43,14 @@ export async function sendOrderEmail(orderDetails: {
         <p><strong>Email:</strong> ${orderDetails.customerInfo.email}</p>
         <p><strong>Phone:</strong> ${orderDetails.customerInfo.phone}</p>
         <p><strong>Message:</strong> ${orderDetails.customerInfo.message}</p>
+        </div>
+
+        <div style="background-color: #f9f9f9; padding: 15px; margin: 15px 0; border-radius: 5px;">
+        <h2 style="color: #444; margin-top: 0;">Shipping Information</h2>
+        <p><strong>Address:</strong> ${orderDetails.shipping.address}</p>
+        <p><strong>City:</strong> ${orderDetails.shipping.city}</p>
+        <p><strong>Postal Code:</strong> ${orderDetails.shipping.postalCode}</p>
+        <p><strong>Country:</strong> ${orderDetails.shipping.country}</p>
         </div>
 
         <h2 style="color: #444;">Order Items</h2>
